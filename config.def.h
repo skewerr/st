@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "Liberation Mono:pixelsize=12:antialias=true:autohint=true";
-static int borderpx = 2;
+static char *font = "DejaVu Sans Mono:size=9:antialias=true:autohint=true";
+static int borderpx = 5;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -85,30 +85,30 @@ unsigned int tabspaces = 8;
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
 	/* 8 normal colors */
-	"black",
-	"red3",
-	"green3",
-	"yellow3",
-	"blue2",
-	"magenta3",
-	"cyan3",
-	"gray90",
+	"#000000", /* black   */
+	"#a82623", /* red     */
+	"#536400", /* green   */
+	"#946e00", /* yellow  */
+	"#246797", /* blue    */
+	"#b05581", /* magenta */
+	"#467467", /* cyan    */
+	"#eeeeee", /* white   */
 
 	/* 8 bright colors */
-	"gray50",
-	"red",
-	"green",
-	"yellow",
-	"#5c5cff",
-	"magenta",
-	"cyan",
-	"white",
+	"#333333", /* black   */
+	"#b44c21", /* red     */
+	"#3f8641", /* green   */
+	"#9f8225", /* yellow  */
+	"#5899a1", /* blue    */
+	"#c9568e", /* magenta */
+	"#479580", /* cyan    */
+	"#ffffff", /* white   */
 
 	[255] = 0,
 
 	/* more colors can be added after 255 to use with DefaultXX */
-	"#cccccc",
-	"#555555",
+	"#656565",
+	"#c0c0c0",
 };
 
 
@@ -116,8 +116,8 @@ static const char *colorname[] = {
  * Default colors (colorname index)
  * foreground, background, cursor, reverse cursor
  */
-unsigned int defaultfg = 7;
-unsigned int defaultbg = 0;
+unsigned int defaultfg = 0;
+unsigned int defaultbg = 15;
 static unsigned int defaultcs = 256;
 static unsigned int defaultrcs = 257;
 
@@ -160,6 +160,11 @@ static MouseShortcut mshortcuts[] = {
 	{ Button5,              XK_ANY_MOD,     "\005" },
 };
 
+static char *openurlcmd[] = {
+	"/bin/sh", "-c", "xurls | /home/spoonm/.local/bin/dmenum | xargs -r waterfox --new-tab",
+	"externalpipe", winid, NULL
+};
+
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
@@ -178,6 +183,7 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ TERMMOD,              XK_I,           iso14755,       {.i =  0} },
+	{ TERMMOD,              XK_U,           externalpipe,   {.v =  openurlcmd} },
 };
 
 /*

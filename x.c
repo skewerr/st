@@ -207,6 +207,7 @@ static DC dc;
 static XWindow xw;
 static XSelection xsel;
 static TermWindow win;
+char winid[64];
 
 /* Font Ring Cache */
 enum {
@@ -624,6 +625,8 @@ setsel(char *str, Time t)
 	XSetSelectionOwner(xw.dpy, XA_PRIMARY, xw.win, t);
 	if (XGetSelectionOwner(xw.dpy, XA_PRIMARY) != xw.win)
 		selclear();
+
+	//xclipcopy();
 }
 
 void
@@ -1038,6 +1041,7 @@ xinit(int cols, int rows)
 			win.w, win.h, 0, XDefaultDepth(xw.dpy, xw.scr), InputOutput,
 			xw.vis, CWBackPixel | CWBorderPixel | CWBitGravity
 			| CWEventMask | CWColormap, &xw.attrs);
+	snprintf(winid, LEN(winid), "%lu", (unsigned long)xw.win);
 
 	memset(&gcvalues, 0, sizeof(gcvalues));
 	gcvalues.graphics_exposures = False;
@@ -1330,9 +1334,14 @@ xdrawglyphfontspecs(const XftGlyphFontSpec *specs, Glyph base, int len, int x, i
 	}
 
 	if (base.mode & ATTR_REVERSE) {
-		temp = fg;
-		fg = bg;
-		bg = temp;
+		if (bg == fg) {
+			bg = &dc.col[defaultfg];
+			fg = &dc.col[defaultbg];
+		} else {
+			temp = fg;
+			fg = bg;
+			bg = temp;
+		}
 	}
 
 	if (base.mode & ATTR_BLINK && win.mode & MODE_BLINK)
