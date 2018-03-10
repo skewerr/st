@@ -183,7 +183,7 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,              XK_Y,           selpaste,       {.i =  0} },
 	{ TERMMOD,              XK_Num_Lock,    numlock,        {.i =  0} },
 	{ TERMMOD,              XK_I,           iso14755,       {.i =  0} },
-	{ MODKEY,               XK_U,           externalpipe,   {.v =  openurlcmd} },
+	{ TERMMOD,              XK_U,           externalpipe,   {.v =  openurlcmd} },
 };
 
 /*
