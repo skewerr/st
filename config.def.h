@@ -161,7 +161,7 @@ static MouseShortcut mshortcuts[] = {
 };
 
 static char *openurlcmd[] = {
-	"/bin/sh", "-c", "xurls | /home/spoonm/.local/bin/dmenum | xargs -r waterfox --new-tab",
+	"/bin/sh", "-c", "xurls | ifne /home/spoonm/.local/bin/dmenum | xargs -r waterfox --new-tab",
 	"externalpipe", winid, NULL
 };
 
