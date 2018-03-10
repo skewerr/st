@@ -1950,7 +1950,7 @@ run:
 	rows = MAX(rows, 1);
 	tnew(cols, rows);
 	xinit(cols, rows);
-	xsettitle(opt_name);
+	xsettitle(opt_title);
 	xsetenv();
 	selinit();
 	run();
