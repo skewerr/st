@@ -160,11 +160,6 @@ static MouseShortcut mshortcuts[] = {
 	{ Button5,              XK_ANY_MOD,     "\005" },
 };
 
-static char *mpvcmd[] = { "/bin/sh", "-c",
-	"xurls | tac | ifne /home/spoonm/.local/bin/dmenum | xargs mpvurl",
-	"externalpipe", winid, NULL
-};
-
 /* Internal keyboard shortcuts. */
 #define MODKEY Mod1Mask
 #define TERMMOD (ControlMask|ShiftMask)
@@ -179,7 +174,6 @@ static Shortcut shortcuts[] = {
 	{ TERMMOD,    XK_V,        clippaste,    {.i =  0} },
 	{ TERMMOD,    XK_Y,        selpaste,     {.i =  0} },
 	{ TERMMOD,    XK_Num_Lock, numlock,      {.i =  0} },
-	{ Mod1Mask,   XK_V,        externalpipe, {.v = mpvcmd} },
 };
 
 /*
