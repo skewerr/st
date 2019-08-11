@@ -5,8 +5,8 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char *font = "DejaVu Sans Mono:size=8.8:antialias=true:autohint=true";
-static int borderpx = 5;
+static char *font = "DejaVu Sans Mono:size=9.1:antialias=true:autohint=true";
+static int borderpx = 3;
 
 /*
  * What program is execed by st depends of these precedence rules:
@@ -57,6 +57,18 @@ static unsigned int blinktimeout = 800;
 static unsigned int cursorthickness = 2;
 
 /*
+ * 1: render most of the lines/blocks characters without using the font for
+ *    perfect alignment between cells (U2500 - U259F except dashes/diagonals).
+ *    Bold affects lines thickness if boxdraw_bold is not 0. Italic is ignored.
+ * 0: disable (render all U25XX glyphs normally from the font).
+ */
+const int boxdraw = 0;
+const int boxdraw_bold = 0;
+
+/* braille (U28XX):  1: render as adjacent "pixels",  0: use font */
+const int boxdraw_braille = 0;
+
+/*
  * bell volume. It must be a value between -100 and 100. Use 0 for disabling
  * it
  */
@@ -84,42 +96,40 @@ unsigned int tabspaces = 8;
 
 /* Terminal colors (16 first used in escape sequence) */
 static const char *colorname[] = {
-	/* 8 normal colors */
-	"#000000", /* black   */
-	"#a82623", /* red     */
-	"#536400", /* green   */
-	"#946e00", /* yellow  */
-	"#246797", /* blue    */
-	"#b05581", /* magenta */
-	"#467467", /* cyan    */
-	"#eeeeee", /* white   */
 
-	/* 8 bright colors */
-	"#333333", /* black   */
-	"#b44c21", /* red     */
-	"#3f8641", /* green   */
-	"#9f8225", /* yellow  */
-	"#5899a1", /* blue    */
-	"#c9568e", /* magenta */
-	"#479580", /* cyan    */
-	"#ffffff", /* white   */
+  /* 8 normal colors */
+  [0] = "#282a2e", /* black   */
+  [1] = "#a54242", /* red     */
+  [2] = "#8c9440", /* green   */
+  [3] = "#de935f", /* yellow  */
+  [4] = "#5f819d", /* blue    */
+  [5] = "#85678f", /* magenta */
+  [6] = "#5e8d87", /* cyan    */
+  [7] = "#707880", /* white   */
 
-	[255] = 0,
+  /* 8 bright colors */
+  [8]  = "#373b41", /* black   */
+  [9]  = "#cc6666", /* red     */
+  [10] = "#b5bd68", /* green   */
+  [11] = "#f0c674", /* yellow  */
+  [12] = "#81a2be", /* blue    */
+  [13] = "#b294bb", /* magenta */
+  [14] = "#8abeb7", /* cyan    */
+  [15] = "#c5c8c6", /* white   */
 
-	/* more colors can be added after 255 to use with DefaultXX */
-	"#656565",
-	"#c0c0c0",
+  /* special colors */
+  [256] = "#1d1f21", /* background */
+  [257] = "#c5c8c6", /* foreground */
 };
-
 
 /*
  * Default colors (colorname index)
- * foreground, background, cursor, reverse cursor
+ * foreground, background, cursor
  */
-unsigned int defaultfg = 0;
-unsigned int defaultbg = 15;
-static unsigned int defaultcs = 256;
-static unsigned int defaultrcs = 257;
+unsigned int defaultfg = 257;
+unsigned int defaultbg = 256;
+static unsigned int defaultcs = 257;
+static unsigned int defaultrcs = 256;
 
 /*
  * Default shape of cursor
@@ -128,7 +138,7 @@ static unsigned int defaultrcs = 257;
  * 6: Bar ("|")
  * 7: Snowman ("☃")
  */
-static unsigned int cursorshape = 2;
+static unsigned int cursorshape = 4;
 
 /*
  * Default columns and rows numbers
